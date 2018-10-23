@@ -58,13 +58,28 @@ struct Queue: ArrayInitializable, StorageProtocol {
     
 }
 
+extension User: JSONInitializable, JSONSerializable {
+    public convenience init(JSON: String) {
+        self.init()
+        
+        let data = JSON.data(using: .utf8)!
+        let jsonArray = try! JSONSerialization.jsonObject(with: data, options : .allowFragments) as? Dictionary<String,String>
+        self.email = jsonArray!["email"]!
+        self.fullName = jsonArray!["fullName"]!
+    }
+    
+    public func toJSON() -> String {
+        return "{\"fullName\": \"\(fullName)\", \"email\": \"\(email)\"}"
+    }
+    
+    
+}
 
 let checker = Checker()
 
 checker.checkProtocols(stack: Stack(), queue: Queue())
 
-//checker.checkExtensions(userType: <#T##(User & JSONInitializable & JSONSerializable).Type#>)
+checker.checkExtensions(userType: User.self)
 
 //checker.checkInheritance(stack: <#T##ArrayInitializableStorage#>, queue: <#T##ArrayInitializableStorage#>)
-
 
