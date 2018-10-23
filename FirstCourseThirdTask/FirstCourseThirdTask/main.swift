@@ -75,11 +75,91 @@ extension User: JSONInitializable, JSONSerializable {
     
 }
 
+class StackInheritance: ArrayInitializableStorage {
+    
+    private var _count: Int
+    
+    override var count: Int {
+        set {
+            _count = newValue
+        }
+        get {
+            return _count
+        }
+    }
+    
+    private var stack: [Int]
+    
+    required init() {
+        stack =  []
+        _count = 0
+        
+        super.init()
+    }
+    
+    required init(array: [Int]) {
+        stack = array
+        _count = array.count
+        
+        super.init(array: array)
+    }
+    
+    override func push(_ element: Int) {
+        self.count += 1
+        stack.append(element)
+    }
+    
+    override func pop() -> Int {
+        self.count -= 1
+        return stack.removeLast()
+    }
+}
+
+class QueueInheritance: ArrayInitializableStorage {
+    private var queue: [Int]
+    
+    private var _count: Int
+    
+    override var count: Int {
+        set {
+            _count = newValue
+        }
+        get {
+            return _count
+        }
+    }
+    
+    required init() {
+        _count = 0
+        queue = []
+        
+        super.init()
+    }
+    
+    required init(array: [Int]) {
+        _count = array.count
+        queue = array
+        
+        super.init(array: array)
+    }
+    
+    override func push(_ element: Int) {
+        self.count += 1
+        queue.append(element)
+    }
+    
+    override func pop() -> Int {
+        self.count -= 1
+        return queue.removeFirst()
+    }
+}
+
+
 let checker = Checker()
 
 checker.checkProtocols(stack: Stack(), queue: Queue())
 
 checker.checkExtensions(userType: User.self)
 
-//checker.checkInheritance(stack: <#T##ArrayInitializableStorage#>, queue: <#T##ArrayInitializableStorage#>)
+checker.checkInheritance(stack: StackInheritance(), queue: QueueInheritance())
 
