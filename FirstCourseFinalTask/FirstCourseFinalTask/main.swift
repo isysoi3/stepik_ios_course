@@ -9,9 +9,7 @@ import Foundation
 import FirstCourseFinalTaskChecker
 
 
-
-
-let checker = Checker(usersStorageClass: <#T##UsersStorageProtocol.Type#>,
-                      postsStorageClass: <#T##PostsStorageProtocol.Type#>)
+let checker = Checker(usersStorageClass: UsersStorage.self,
+                      postsStorageClass: PostsStorage.self)
 checker.run()
 
